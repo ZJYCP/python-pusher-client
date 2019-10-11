@@ -50,7 +50,7 @@ class PusherClient:
         self.app_key = app_key
         self.events = {}
         self.channels = {}
-        self.factory = WebSocketClientFactory("ws://ws.pusherapp.com:80/app/%s?client=python-twisted?version=1.0&protocol=4" % app_key)
+        self.factory = WebSocketClientFactory("wss://ws-ap3.pusher.com/app/%s?client=python-twisted?version=1.0&protocol=4" % app_key)
         self.factory.protocol = PusherProtocol
         self.factory.singleton = None
         self.factory.pusher = self
@@ -98,5 +98,6 @@ class PusherClient:
         if not data:
             data = {}
         payload = {"event":event, "data":data}
-        self.factory.singleton.sendMessage(json.dumps(payload), False)
+        dd = bytes(json.dumps(payload).encode('utf-8'))
+        self.factory.singleton.sendMessage(dd, False)
 
